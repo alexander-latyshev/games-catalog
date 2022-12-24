@@ -1,20 +1,10 @@
 import { AppProps } from "next/app";
 import React from "react";
-import { DefaultTheme, ThemeProvider } from "styled-components";
-import GlobalStyle from "../styles/globalstyles";
+import { ThemeProvider } from "styled-components";
 import { store } from "../redux/store";
 import { Provider } from "react-redux";
-
-type Props = {};
-
-const theme: DefaultTheme = {
-  primary: "#040714",
-  secondary: "#0070f3",
-  white: "#fff",
-  brightBlue: "#3E64E5",
-  silver: "silver",
-  darkGrey: "#31343e",
-};
+import theme from "../styles/theme";
+import GlobalStyle from "../styles/global";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

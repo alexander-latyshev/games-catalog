@@ -3,6 +3,8 @@ import { createGlobalStyle } from "styled-components";
 const GlobalStyle = createGlobalStyle`
   html,
   body {
+    font-size: 100%;  
+    text-rendering: optimizeSpeed;
     color: ${({ theme }) => theme.primary};
     padding: 0;
     margin: 0;
@@ -15,7 +17,8 @@ const GlobalStyle = createGlobalStyle`
   }
   h1, h2, h3, h4 {
     color: ${({ theme }) => theme.white};
-    margin-bottom: 0;
+    margin: 0;
+    padding: 0;
   }
   p {
     color: ${({ theme }) => theme.silver};
