@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "../styles/theme";
+import { BiSearch } from "react-icons/bi";
 
 const HeaderContainer = styled.header`
   margin: 0;
@@ -37,13 +38,31 @@ const Input = styled.input`
   :hover {
     background-color: ${({ theme }) => theme.white};
   }
+  :focus {
+    background-color: ${({ theme }) => theme.white};
+  }
 `;
 
 const Header = () => {
+  const [hasHover, setHover] = useState(false);
+  const [hasFocus, setFocus] = useState(false);
+
   return (
     <HeaderContainer>
       <Title>RAWG</Title>
-      <Input type="text" placeholder={`Search ${1} games`} />
+      <BiSearch
+        color={hasHover || hasFocus ? "black" : "grey"}
+        style={{ position: "relative", left: 30 }}
+      />
+      <Input
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        onFocus={() => setFocus(true)}
+        onBlur={() => setFocus(false)}
+        autoFocus
+        type="text"
+        placeholder={`Search ${1} games`}
+      />
     </HeaderContainer>
   );
 };
