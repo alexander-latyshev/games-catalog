@@ -21,7 +21,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
   }
   p {
-    color: ${({ theme }) => theme.silver};
+    color: ${({ theme }) => theme.silver};    
+    margin: 0;
+    padding: 0;
   }
   * {
     box-sizing: border-box;
