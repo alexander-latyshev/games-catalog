@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import theme from "../styles/theme";
 import { BiSearch } from "react-icons/bi";
+import { useAppSelector } from "../redux/hooks";
 
 const HeaderContainer = styled.header`
   margin: 0;
@@ -46,6 +47,9 @@ const Input = styled.input`
 const Header = () => {
   const [hasHover, setHover] = useState(false);
   const [hasFocus, setFocus] = useState(false);
+  const totalGamesAmount = useAppSelector(
+    (state) => state.data.totalGamesAmount
+  );
 
   return (
     <HeaderContainer>
@@ -61,7 +65,7 @@ const Header = () => {
         onBlur={() => setFocus(false)}
         autoFocus
         type="text"
-        placeholder={`Search ${1} games`}
+        placeholder={`Search ${totalGamesAmount} games`}
       />
     </HeaderContainer>
   );

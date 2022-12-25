@@ -1,24 +1,69 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { IGame, IGamesList } from "../../models/data";
 
 export interface IDataState {
-  value: number;
+  gamesList: any;
+  totalGamesAmount: Number;
+}
+
+export interface IAction {
+  type: string;
+  payload?: any;
+  meta?: {
+    arg: any;
+    requestId: string;
+    requestStatus: string;
+  };
 }
 
 const initialState: IDataState = {
-  value: 0,
+  gamesList: null,
+  totalGamesAmount: 0,
 };
 
-export const counterSlice = createSlice({
+export const fetchGames = createAsyncThunk<IGamesList[]>(
+  "games",
+  async (games) => {
+    const url =
+      "https://api.rawg.io/api/platforms?key=cf6689bae468409f9286602ad7515cc2";
+    const response = await fetch(url, {
+      method: "GET",
+      body: JSON.stringify(games),
+    });
+
+    const result = await response.json();
+    return result.results;
+  }
+);
+
+export const gamesSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
     increment: (state) => {
-      state.value += 1;
+      return state;
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(fetchGames.fulfilled, (state, action: IAction) => {
+      const totalGames: number = action.payload.reduce(
+        (prev: any, cur: any) => {
+          return prev + cur.games_count;
+        },
+        0
+      );
+      console.log(totalGames);
+
+      return {
+        ...state,
+        gamesList: action.payload,
+        totalGamesAmount: totalGames,
+      };
+    });
   },
 });
 
-export const { increment } = counterSlice.actions;
+export const { increment } = gamesSlice.actions;
 
-export default counterSlice.reducer;
+export default gamesSlice.reducer;
