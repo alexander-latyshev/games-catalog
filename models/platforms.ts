@@ -1,11 +1,11 @@
-export interface IGame {
+export interface IPlatform {
   id: number;
   slug: string;
   name: string;
   added: number;
 }
 
-export interface IGamesList {
+export interface IPlatformsList {
   id: number;
   name: string;
   slug: string;
@@ -14,5 +14,5 @@ export interface IGamesList {
   image?: any;
   year_start?: number;
   year_end?: any;
-  games: IGame[];
+  games: IPlatform[];
 }

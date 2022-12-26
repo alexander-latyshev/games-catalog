@@ -28,7 +28,8 @@ const ProductList = () => {
               key={index}
               name={game.name}
               id={game.id}
-              image={game.background_image}
+              image={game?.background_image}
+              platforms={game?.platforms}
             />
           );
         })}

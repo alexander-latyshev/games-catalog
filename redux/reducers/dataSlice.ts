@@ -79,8 +79,6 @@ export const dataSlice = createSlice({
         };
       })
       .addCase(fetchGames.fulfilled, (state, action: IAction) => {
-        console.log(JSON.stringify(action.payload));
-
         return { ...state, games: action.payload };
       });
   },
