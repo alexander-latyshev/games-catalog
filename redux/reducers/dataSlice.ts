@@ -1,10 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { IGame, IGamesList } from "../../models/data";
+import { IPlatformsList } from "../../models/platforms";
+import { IGamesList } from "../../models/games";
 
 export interface IDataState {
-  gamesList: any;
+  platforms: IPlatformsList[] | null;
   totalGamesAmount: Number;
+  games: any;
 }
 
 export interface IAction {
@@ -18,15 +20,31 @@ export interface IAction {
 }
 
 const initialState: IDataState = {
-  gamesList: null,
+  platforms: null,
   totalGamesAmount: 0,
+  games: null,
 };
 
-export const fetchGames = createAsyncThunk<IGamesList[]>(
+export const fetchPlatforms = createAsyncThunk<IPlatformsList[]>(
+  "platforms",
+  async (platforms) => {
+    const url =
+      "https://api.rawg.io/api/platforms?key=cf6689bae468409f9286602ad7515cc2";
+    const response = await fetch(url, {
+      method: "GET",
+      body: JSON.stringify(platforms),
+    });
+
+    const result = await response.json();
+    return result.results;
+  }
+);
+
+export const fetchGames = createAsyncThunk<IGamesList>(
   "games",
   async (games) => {
     const url =
-      "https://api.rawg.io/api/platforms?key=cf6689bae468409f9286602ad7515cc2";
+      "https://api.rawg.io/api/games?dates=2019-09-01%2C2019-09-30&key=cf6689bae468409f9286602ad7515cc2&page=1&platforms=18%2C1%2C7";
     const response = await fetch(url, {
       method: "GET",
       body: JSON.stringify(games),
@@ -37,7 +55,7 @@ export const fetchGames = createAsyncThunk<IGamesList[]>(
   }
 );
 
-export const gamesSlice = createSlice({
+export const dataSlice = createSlice({
   name: "counter",
   initialState,
   reducers: {
@@ -46,24 +64,28 @@ export const gamesSlice = createSlice({
     },
   },
   extraReducers(builder) {
-    builder.addCase(fetchGames.fulfilled, (state, action: IAction) => {
-      const totalGames: number = action.payload.reduce(
-        (prev: any, cur: any) => {
-          return prev + cur.games_count;
-        },
-        0
-      );
-      console.log(totalGames);
+    builder
+      .addCase(fetchPlatforms.fulfilled, (state, action: IAction) => {
+        const totalGames: number = action.payload.reduce(
+          (prev: any, cur: any) => {
+            return prev + cur.games_count;
+          },
+          0
+        );
+        return {
+          ...state,
+          platforms: action.payload,
+          totalGamesAmount: totalGames,
+        };
+      })
+      .addCase(fetchGames.fulfilled, (state, action: IAction) => {
+        console.log(JSON.stringify(action.payload));
 
-      return {
-        ...state,
-        gamesList: action.payload,
-        totalGamesAmount: totalGames,
-      };
-    });
+        return { ...state, games: action.payload };
+      });
   },
 });
 
-export const { increment } = gamesSlice.actions;
+export const { increment } = dataSlice.actions;
 
-export default gamesSlice.reducer;
+export default dataSlice.reducer;
