@@ -1,5 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { IGamesList } from "../models/games";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { fetchGames, fetchPlatforms } from "../redux/reducers/dataSlice";
 import theme from "../styles/theme";
@@ -32,13 +33,6 @@ const Subtitle = styled.p`
 `;
 
 const Main = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchPlatforms());
-    dispatch(fetchGames());
-  }, []);
-
   return (
     <MainContainer>
       <Aside />

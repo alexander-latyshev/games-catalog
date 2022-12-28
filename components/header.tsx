@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import theme from "../styles/theme";
 import { BiSearch } from "react-icons/bi";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { fetchPlatforms } from "../redux/reducers/dataSlice";
 
 const HeaderContainer = styled.header`
   margin: 0;
@@ -45,11 +46,16 @@ const Input = styled.input`
 `;
 
 const Header = () => {
+  const dispatch = useAppDispatch();
   const [hasHover, setHover] = useState(false);
   const [hasFocus, setFocus] = useState(false);
   const totalGamesAmount = useAppSelector(
     (state) => state.data.totalGamesAmount
   );
+
+  useEffect(() => {
+    dispatch(fetchPlatforms());
+  }, []);
 
   return (
     <HeaderContainer>

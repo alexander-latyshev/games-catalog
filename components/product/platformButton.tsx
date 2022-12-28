@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 type Props = {
   name: string;
+  // id: number;
 };
 
 const TextBox = styled.span`

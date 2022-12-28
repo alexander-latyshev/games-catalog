@@ -54,7 +54,7 @@ export interface Genre {
   slug: string;
 }
 
-export interface IGamesList {
+export interface IGame {
   slug: string;
   name: string;
   playtime: number;

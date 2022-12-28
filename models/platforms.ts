@@ -16,3 +16,13 @@ export interface IPlatformsList {
   year_end?: any;
   games: IPlatform[];
 }
+
+export interface IAvailablePlatform {
+  id: number;
+  name: string;
+  slug: string;
+}
+
+export interface IAvailablePlatforms {
+  platform: IAvailablePlatform;
+}
