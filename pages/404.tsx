@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Image from "next/image";
-import blErrorImage from "../public/images/404/bloodline.jpg";
-import bgLandscape from "../public/images/404/landscape.jpg";
+import bgLandscape from "../public/images/landscape.jpg";
 import Link from "next/link";
 
 const Page = styled.div`
@@ -59,15 +58,6 @@ const Button = styled.button`
 `;
 
 const ArtWrapper = styled.div`
-  /* z-index: 1;
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-    to left,
-    rgba(0, 0, 0, 0.7),
-    rgb(21, 21, 21)
-  ); */
   position: fixed;
   background-color: black;
   top: 0;
@@ -83,8 +73,8 @@ const RadialGradient = styled.div`
   height: 100%;
   width: 100%;
   background: linear-gradient(
-    90deg,
-    ${({ theme }) => theme.primary},
+    to right,
+    ${({ theme }) => theme.secondary},
     rgba(0, 0, 0, 0.7)
   );
 `;
@@ -123,6 +113,3 @@ const NotFound = () => {
 };
 
 export default NotFound;
-
-// background:
-// "linear-gradient(to left, rgba(0, 0, 0, 0.7), rgb(21, 21, 21))",
