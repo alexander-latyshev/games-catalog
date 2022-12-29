@@ -20,11 +20,11 @@ const ProductList = () => {
   const games: IGame[] = useAppSelector((state) => state.data.games);
   const dispatch = useAppDispatch();
   const [currentPage, setCurrentPage] = useState(1);
-  const [items, setItems] = useState([] as IGame[]);
+  const [products, setProducts] = useState([] as Array<IGame>);
   const [fetching, setFetching] = useState(true);
 
   useEffect(() => {
-    if (items?.length === 0) setItems(games);
+    if (products?.length === 0) setProducts(games);
     document.addEventListener("scroll", scrollHandler);
     return () => {
       document.removeEventListener("scroll", scrollHandler);
@@ -34,7 +34,6 @@ const ProductList = () => {
   const scrollHandler = () => {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollTop = document.documentElement.scrollTop;
-    console.log(scrollHeight - (scrollTop + window.innerHeight));
     if (scrollHeight - (scrollTop + window.innerHeight) < 700) {
       setFetching(true);
       setCurrentPage(currentPage + 1);
@@ -44,7 +43,7 @@ const ProductList = () => {
   useEffect(() => {
     if (fetching) {
       dispatch(fetchGames(currentPage));
-      setItems([...items, ...games]);
+      setProducts([...products, ...games]);
       setFetching(false);
     }
   }, [fetching]);
@@ -56,17 +55,17 @@ const ProductList = () => {
         className="my-masonry-grid"
         columnClassName="my-masonry-grid_column"
       >
-        {items?.map((game: IGame, index: number) => {
+        {products?.map((p: IGame, idx: number) => {
           return (
             <ProductCard
-              key={index}
-              name={game.name}
-              id={game.id}
-              image={game.background_image}
-              platforms={game.platforms}
-              released={game.released}
-              metacritic={game.metacritic}
-              rating={game.rating}
+              key={idx}
+              name={p.name}
+              id={p.id}
+              image={p.background_image}
+              platforms={p.platforms}
+              released={p.released}
+              metacritic={p.metacritic}
+              rating={p.rating}
             />
           );
         })}
