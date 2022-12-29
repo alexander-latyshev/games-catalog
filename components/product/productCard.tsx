@@ -13,20 +13,20 @@ type Props = {
 };
 
 const Card = styled.div`
-  color: ${({ theme }) => theme.secondary};
+  color: ${({ theme }) => theme.white};
   flex-direction: column;
   max-width: 270px;
+  background-color: ${({ theme }) => theme.secondary};
   margin-top: 24px;
   display: flex;
   width: 100%;
   cursor: pointer;
-  background-color: #202020;
   border-radius: 12px;
   transition: box-shadow 0.2s ease-in-out;
   -webkit-box-shadow: 0 10px 20px 0 rgb(0 0 0 / 7%);
   box-shadow: 0 10px 20px 0 rgb(0 0 0 / 7%);
   :hover {
-    box-shadow: 0 4px 20px hsl(210deg 5% 37% / 19%);
+    box-shadow: 0 4px 20px ${({ theme }) => theme.hover};
   }
 `;
 
@@ -38,7 +38,6 @@ const Wrapper = styled.div`
 
 const Title = styled.h3`
   width: 100%;
-  color: ${({ theme }) => theme.white};
   margin-bottom: 8px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -58,18 +57,23 @@ const Icon = styled.img`
   border-top-right-radius: 12px;
 `;
 
-const Text = styled.span`
-  color: ${({ theme }) => theme.white};
-`;
-
 const Info = styled(Wrapper)`
   flex-direction: column;
   padding: 0;
 `;
 
 const Rating = styled.div`
-  color: ${({ theme }) => theme.lightGreen};
-  border: 1px solid ${({ theme }) => theme.darkGreen};
+  color: ${({ theme, color }) => {
+    if (color === "green") return theme.lightGreen;
+    if (color === "red") return theme.lightRed;
+    return theme.lightOrange;
+  }};
+  border: 1px solid
+    ${({ theme, color }) => {
+      if (color === "green") return theme.darkGreen;
+      if (color === "red") return theme.darkRed;
+      return theme.darkOrange;
+    }};
   margin-left: auto;
   padding: 2px 0;
   min-width: 32px;
@@ -77,7 +81,6 @@ const Rating = styled.div`
   margin-top: 20px;
   font-weight: 700;
   text-align: center;
-  border: 1px solid;
 `;
 
 const ProductCard = (props: Props) => {
@@ -91,9 +94,21 @@ const ProductCard = (props: Props) => {
         <Title>{props.name}</Title>
 
         <Info>
-          <Text>{`Release date: ${props.released}`}</Text>
+          <span>{`Release date: ${props.released}`}</span>
         </Info>
-        {props.metacritic && <Rating>{props.metacritic}</Rating>}
+        {props.metacritic && (
+          <Rating
+            color={
+              props.metacritic > 80
+                ? "green"
+                : props.metacritic < 50
+                ? "red"
+                : "orange"
+            }
+          >
+            {props.metacritic}
+          </Rating>
+        )}
       </Wrapper>
     </Card>
   );
